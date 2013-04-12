@@ -5,6 +5,7 @@
 #import "Ball.h"
 #import "Block.h"
 #import "Platform.h"
+#import "Enemy.h"
 
 #import "GameConfig.h"
 #import "SimpleAudioEngine.h"
@@ -38,6 +39,7 @@
     [blocksArray release];
     [bonusesArray release];
     [bulletsArray release];
+    [enemiesArray release];
 	[super dealloc];
 }
 
@@ -51,6 +53,7 @@
         blocksArray = [[NSMutableArray alloc] init];
         bonusesArray = [[NSMutableArray alloc] init];
         bulletsArray = [[NSMutableArray alloc] init];
+        enemiesArray = [[NSMutableArray alloc] init];
         
         self.isTouchEnabled = YES;
         
@@ -110,6 +113,8 @@
     
     [self checkCollisionsBlockwithBall];
     
+    [self checkCollisionsEnemyWithBall];
+    
     for(Ball *currentBall in ballsArray)
     {
         if(currentBall.IsBallRuned)
@@ -142,9 +147,20 @@
 {
     self.isTouchEnabled = NO;
     
+    for(Enemy *curEnemy in enemiesArray)
+    {
+        [curEnemy pauseSchedulerAndActions];
+    }
+
+    
     for(Bonus *curBonus in bonusesArray)
     {
         [curBonus pauseSchedulerAndActions];
+    }
+    
+    for(CCSprite *curBullet in bulletsArray)
+    {
+        [curBullet pauseSchedulerAndActions];
     }
     
     [self pauseSchedulerAndActions];
@@ -154,9 +170,19 @@
 {
     self.isTouchEnabled = YES;
     
+    for(Enemy *curEnemy in enemiesArray)
+    {
+        [curEnemy resumeSchedulerAndActions];
+    }
+    
     for(Bonus *curBonus in bonusesArray)
     {
         [curBonus resumeSchedulerAndActions];
+    }
+    
+    for(CCSprite *curBullet in bulletsArray)
+    {
+        [curBullet resumeSchedulerAndActions];
     }
     
     [self resumeSchedulerAndActions];
@@ -187,6 +213,11 @@
         [self removeChild: curBall cleanup: YES];
     }
     
+    for(Enemy *curEnemy in enemiesArray)
+    {
+        [self removeChild: curEnemy cleanup: YES];
+    }
+    
     for(Bonus *curBonus in bonusesArray)
     {
         [self removeChild: curBonus cleanup: YES];
@@ -209,9 +240,14 @@
     NSDictionary *dataForCurrentLevel = [dict valueForKey: [NSString stringWithFormat: @"level_%i", currentLevel]];
     
     NSString *coordinats = [dataForCurrentLevel valueForKey: @"coordinats"];
-    NSInteger countOfBlocks = [[dataForCurrentLevel valueForKey: @"countBlocks"] integerValue];
+    
+    NSString *enemiesParameters = [dataForCurrentLevel valueForKey: @"enemies"];
     
     NSArray *arrayWithCoordinats = [coordinats componentsSeparatedByString: @","];
+    NSArray *arrayWithParametersOfEnemies = [enemiesParameters componentsSeparatedByString: @","];
+    
+    NSInteger countOfBlocks = [arrayWithCoordinats count] / 3;
+    NSInteger countOfEnemies = [arrayWithParametersOfEnemies count] / 10;
     
     for(int i = 0; i < countOfBlocks; i++)
     {
@@ -226,6 +262,43 @@
         [blocksArray addObject: block];
         [self addChild: block];
     }
+    
+    for(int i = 0; i < countOfEnemies; i++)
+    {
+        float posX = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)] floatValue];
+        float posY = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+1] floatValue];
+        float leftB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+2] floatValue];
+        float rightB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+3] floatValue];
+    
+        float speedOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+4] floatValue];
+        
+        BOOL directionIsRight = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+5] boolValue];
+        BOOL isCanShooting = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+6] boolValue];
+        
+        NSInteger typeOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+7] intValue];
+        float speedOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+8] floatValue];
+        
+        NSInteger healthOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+9] intValue];
+        
+        Enemy *enemy = [Enemy createWithBorders: leftB angRight: rightB];
+        
+        enemy.position = ccp(posX, posY);
+        enemy.directionIsRight = directionIsRight;
+        enemy.health = healthOfEnemy;
+        
+        [self addChild: enemy];
+        
+        [enemiesArray addObject: enemy];
+        
+        [enemy moveWithSpeed: speedOfEnemy];
+        
+        if(isCanShooting)
+        {
+            CCLOG(@"Type %i speed: %f health %i", typeOfBullet, speedOfBullet, healthOfEnemy);
+        }
+    }
+    
+    
     
     CCLOG(@"LOADED OK; Balls: %i Blocks: %i", [ballsArray count], [blocksArray count]);
     
@@ -480,7 +553,7 @@
             {
                 if(isContactWithLeftPartOfPlatform)
                 {
-                    CCLOG(@"contact LEFT from LEFT");
+                    // CCLOG(@"contact LEFT from LEFT");
                     if(currentBall.multiplierX > 0.4)
                     {
                         currentBall.multiplierX -= 0.2;
@@ -489,7 +562,7 @@
                 }
                 else
                 {
-                    CCLOG(@"contact RIGHT from LEFT");
+                    // CCLOG(@"contact RIGHT from LEFT");
                     if(currentBall.multiplierX < 1.8)
                     {
                         currentBall.multiplierX += 0.2;
@@ -501,7 +574,7 @@
             {
                 if(isContactWithLeftPartOfPlatform)
                 {
-                    CCLOG(@"contact LEFT from RIGHT");
+                    // CCLOG(@"contact LEFT from RIGHT");
                     if(currentBall.multiplierX > -1.8)
                     {
                         currentBall.multiplierX -= 0.2;
@@ -510,7 +583,7 @@
                 }
                 else
                 {
-                    CCLOG(@"contact RIGHT from RIGHT");
+                    // CCLOG(@"contact RIGHT from RIGHT");
                     if(currentBall.multiplierX < -0.4)
                     {
                         currentBall.multiplierX += 0.2;
@@ -524,8 +597,6 @@
                 currentBall.multiplierX *= -1;
             }
             
-            
-            
             if(IsCatchBonusActive)
             {
                 currentBall.differenceX = currentBall.position.x - platform.position.x;
@@ -534,10 +605,6 @@
             }
             
             [self harlemShake: 0 and: currentBall.multiplierY];
-            
-            CCLOG(@"X: %f Y: %f", currentBall.multiplierX, currentBall.multiplierY);
-            
-            //[[SimpleAudioEngine sharedEngine] playEffect: @"shot.wav"];
         }
     }
 }
@@ -578,7 +645,7 @@
                 currentBall.multiplierX *= -1;
             }
             
-            [self harlemShake: currentBall.multiplierX and: 0];
+            //[self harlemShake: currentBall.multiplierX and: 0];
             //[[SimpleAudioEngine sharedEngine] playEffect: @"shot.wav"];
         }
         if(currentBall.position.x < (0 + currentBall.contentSize.width / 2))
@@ -588,7 +655,7 @@
                 currentBall.multiplierX *= -1;
             }
             
-            [self harlemShake: currentBall.multiplierX and: 0];
+            //[self harlemShake: currentBall.multiplierX and: 0];
             //[[SimpleAudioEngine sharedEngine] playEffect: @"shot.wav"];
         }
         
@@ -599,7 +666,7 @@
                 currentBall.multiplierY *= -1;
             }
             
-            [self harlemShake: 0 and: currentBall.multiplierY];
+            //[self harlemShake: 0 and: currentBall.multiplierY];
             //[[SimpleAudioEngine sharedEngine] playEffect: @"shot.wav"];
         }
         if(currentBall.position.y < 0)
@@ -637,6 +704,59 @@
     [ballsToRemove release];
 }
 
+- (void) checkCollisionsEnemyWithBall
+{
+    NSMutableArray *enemyForRemove = [[NSMutableArray alloc] init];
+    
+    for(Ball *curBall in ballsArray)
+    {
+        for(Enemy *curBlock in enemiesArray)
+        {
+            if((fabs(curBall.position.y - curBlock.position.y) <= fabs(curBall.contentSize.height / 2 + curBlock.contentSize.height / 2)) &&
+               (fabs(curBall.position.x - curBlock.position.x) <= fabs(curBall.contentSize.width / 2 + curBlock.contentSize.width / 2)))
+            {
+                if(fabs(curBall.position.x - curBlock.position.x) < (curBlock.contentSize.width/2 + curBall.contentSize.width/2 - 3))
+                {
+                    curBall.multiplierY *= -1;
+                }
+                if(fabs(curBall.position.y - curBlock.position.y) < (curBlock.contentSize.height/2 + curBall.contentSize.height/2 - 3))
+                {
+                    curBall.multiplierX *= -1;
+                    
+                }
+                
+                [self harlemShake: curBall.multiplierX and: curBall.multiplierY];
+                
+                curBlock.health -= 1;
+                
+                if(curBlock.health <= 0)
+                {
+                    [enemyForRemove addObject: curBlock];
+                    
+                }
+                
+                [guiLayer updateScoreLabel: score += 5];
+                
+            }
+        }
+    }
+    
+    for(Enemy *curBlockForRemove in enemyForRemove)
+    {
+        [self removeChild: curBlockForRemove cleanup: YES];
+        
+        [enemiesArray removeObject: curBlockForRemove];
+    }
+    
+    if([blocksArray count] == 0 && [enemiesArray count] == 0)
+    {
+        IsPortalActive = YES;
+    }
+    
+    [enemyForRemove release];
+    
+}
+
 - (void) checkCollisionsBlockwithBall
 {
     NSMutableArray *blockForRemove = [[NSMutableArray alloc] init];
@@ -658,7 +778,7 @@
                      
                 }
                 
-                [self harlemShake: 0 and: curBall.multiplierY];
+                [self harlemShake: curBall.multiplierX and: curBall.multiplierY];
                 
                 curBlock.health -= 1;
                 
@@ -700,7 +820,7 @@
         [blocksArray removeObject: curBlockForRemove];
     }
     
-    if([blocksArray count] == 0)
+    if([blocksArray count] == 0 && [enemiesArray count] == 0)
     {
         IsPortalActive = YES;
     }
@@ -720,7 +840,7 @@
             {
                 if(IsPortalActive)
                 {
-                    //IsPortalActive = NO;
+                    IsPortalActive = NO;
                 }
             }
         }

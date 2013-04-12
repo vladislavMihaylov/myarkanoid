@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F500EA8F16DF26630077D7C6 /* GuiLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F500EA8E16DF26630077D7C6 /* GuiLayer.m */; };
 		F500EA9716DF32930077D7C6 /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = F500EA9616DF32930077D7C6 /* shot.wav */; };
+		F500F7CD17180F9700B06E07 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = F500F7CC17180F9700B06E07 /* Enemy.m */; };
 		F501B42C16E1B3CD005FE7F4 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B42B16E1B3CD005FE7F4 /* bullet.png */; };
 		F501B43316E1C55A005FE7F4 /* ballSprite.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B43216E1C55A005FE7F4 /* ballSprite.png */; };
 		F501B43516E1D750005FE7F4 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B43416E1D750005FE7F4 /* bg.png */; };
@@ -178,6 +179,8 @@
 		F500EA8D16DF26630077D7C6 /* GuiLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiLayer.h; sourceTree = "<group>"; };
 		F500EA8E16DF26630077D7C6 /* GuiLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuiLayer.m; sourceTree = "<group>"; };
 		F500EA9616DF32930077D7C6 /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
+		F500F7CB17180F9700B06E07 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
+		F500F7CC17180F9700B06E07 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
 		F501B42B16E1B3CD005FE7F4 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		F501B43216E1C55A005FE7F4 /* ballSprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ballSprite.png; sourceTree = "<group>"; };
 		F501B43416E1D750005FE7F4 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 				F5AD892516DE83B6002AE5DD /* Platform.m */,
 				F5AD892C16DE8E2D002AE5DD /* Block.h */,
 				F5AD892D16DE8E2D002AE5DD /* Block.m */,
+				F500F7CB17180F9700B06E07 /* Enemy.h */,
+				F500F7CC17180F9700B06E07 /* Enemy.m */,
 				F5AD892716DE84BA002AE5DD /* GameConfig.h */,
 				F5AD892816DE84BB002AE5DD /* GameConfig.m */,
 				F5F9B9E116DE65C400C2F783 /* Resources */,
@@ -574,6 +579,7 @@
 		F5F9B9E116DE65C400C2F783 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F594F48216DF534000790133 /* levels.plist */,
 				F5086BAC16E9C7BF00BFB2FD /* Noise-hd.png */,
 				F501B48516E21FD7005FE7F4 /* bg2.png */,
 				F55775C216E36509009FB0C6 /* newLevelBtnForMenu.png */,
@@ -585,7 +591,6 @@
 				F501B44716E2062F005FE7F4 /* backBtn.png */,
 				F501B44216E201F9005FE7F4 /* playBtn.png */,
 				F501B44416E202BC005FE7F4 /* playBtnOn.png */,
-				F594F48216DF534000790133 /* levels.plist */,
 				F55775B616E3450E009FB0C6 /* bonus_1.png */,
 				F55775B716E3450E009FB0C6 /* bonus_2.png */,
 				F55775B816E3450E009FB0C6 /* bonus_3.png */,
@@ -1181,6 +1186,7 @@
 				F594F4BD16DF5CF800790133 /* MainMenuLayer.m in Sources */,
 				F594F4C416DF60A700790133 /* SelectLevelLayer.m in Sources */,
 				F594F4CC16DFDDC600790133 /* Bonus.m in Sources */,
+				F500F7CD17180F9700B06E07 /* Enemy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

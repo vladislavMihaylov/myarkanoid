@@ -14,6 +14,8 @@
     CCSprite *blockSprite;
     
     NSInteger health;
+    
+    BOOL isEnemyBlock;
 }
 
 + (Block *) create;

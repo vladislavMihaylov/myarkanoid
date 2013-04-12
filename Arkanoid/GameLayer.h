@@ -35,6 +35,7 @@
     NSMutableArray *blocksArray;
     NSMutableArray *bonusesArray;
     NSMutableArray *bulletsArray;
+    NSMutableArray *enemiesArray;
 }
 
 - (void) pause;

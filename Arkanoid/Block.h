@@ -12,8 +12,13 @@
 @interface Block: CCNode
 {
     CCSprite *blockSprite;
+    
+    NSInteger health;
 }
 
 + (Block *) create;
+- (void) updateSprite: (NSInteger) type;
+
+@property (nonatomic, assign) NSInteger health;
 
 @end

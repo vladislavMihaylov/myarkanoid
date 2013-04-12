@@ -10,6 +10,8 @@
 
 @implementation Block
 
+@synthesize health;
+
 - (void) dealloc
 {
     [super dealloc];
@@ -19,7 +21,9 @@
 {
     if(self = [super init])
     {
-        blockSprite = [CCSprite spriteWithFile: @"block.png"];
+        health = 1;
+        
+        blockSprite = [CCSprite spriteWithFile: @"block1.png"];
         
         CGSize spriteSize = [blockSprite contentSize];
         self.contentSize = spriteSize;
@@ -28,6 +32,15 @@
     }
     
     return self;
+}
+
+- (void) updateSprite: (NSInteger) type
+{
+    [self removeChild: blockSprite cleanup: YES];
+    
+    blockSprite = [CCSprite spriteWithFile: [NSString stringWithFormat: @"block%i.png", type]];
+    
+    [self addChild: blockSprite];
 }
 
 + (Block *) create

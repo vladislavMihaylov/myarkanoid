@@ -25,7 +25,8 @@
     Ball *newBall;
     Platform *platform;
     
-    CCSprite *bg;
+    CCSprite *_background;
+    CCSprite *portal;
     
     NSInteger score;
     NSInteger lives;
@@ -38,6 +39,8 @@
 
 - (void) pause;
 - (void) unPause;
+
+- (void) nextLevel;
 
 @property (nonatomic, assign) GuiLayer *guiLayer;
 

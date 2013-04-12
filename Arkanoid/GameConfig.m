@@ -13,3 +13,4 @@ BOOL IsSlowBallSpeed = NO;
 BOOL IsPlatformIsFat = NO;
 BOOL IsCatchBonusActive = NO;
 BOOL IsGunBonusActive = NO;
+BOOL IsPortalActive = NO;

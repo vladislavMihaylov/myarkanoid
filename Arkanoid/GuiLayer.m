@@ -53,17 +53,31 @@
 {
     [gameLayer pause];
     
-    CCMenuItemImage *pauseBtn = [CCMenuItemImage itemWithNormalImage: @"pauseBtn.png" selectedImage: @"pauseBtn.png" target: self selector: @selector(hidePauseMenu)];
+    CCMenuItemImage *pauseBtn = [CCMenuItemImage itemWithNormalImage: @"playBtnForMenu.png" selectedImage: @"playBtnForMenu.png" target: self selector: @selector(hidePauseMenu)];
     pauseBtn.position = ccp(GameCenterX, GameCenterY);
     
-    CCMenuItemImage *back = [CCMenuItemImage itemWithNormalImage: @"backBtn.png"
-                                                   selectedImage: @"backBtnOn.png"
+    CCMenuItemImage *back = [CCMenuItemImage itemWithNormalImage: @"exitBtnForMenu.png"
+                                                   selectedImage: @"exitBtnForMenu.png"
                              target: self selector: @selector(back)];
+    
+    CCMenuItemImage *next = [CCMenuItemImage itemWithNormalImage: @"newLevelBtnForMenu.png"
+                                                   selectedImage: @"newLevelBtnForMenu.png"
+                                                          target: self selector: @selector(next)];
+    
     back.position = ccp(GameCenterX - 60, GameCenterY);
     
-    CCMenu *pauseMenu = [CCMenu menuWithItems: pauseBtn, back, nil];
+    next.position = ccp(GameCenterX + 60, GameCenterY);
+    
+    CCMenu *pauseMenu = [CCMenu menuWithItems: pauseBtn, back, next, nil];
     pauseMenu.position = ccp(0, 0);
     [self addChild: pauseMenu z:10 tag: 1];
+}
+
+- (void) next
+{
+    [gameLayer nextLevel];
+    
+    [self removeChildByTag: 1 cleanup: YES];
 }
 
 - (void) back

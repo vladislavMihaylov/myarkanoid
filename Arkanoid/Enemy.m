@@ -64,11 +64,11 @@
     }
     
     [self runAction:
-        [CCRepeatForever actionWithAction:
-            [CCSequence actions: [CCMoveTo actionWithDuration: speedOfEnemy position: ccp(startX, self.position.y)],
-                                 [CCMoveTo actionWithDuration: speedOfEnemy position: ccp(finishX, self.position.y)],
-             nil]
-         ]
+            [CCRepeatForever actionWithAction:
+                    [CCSequence actions: [CCMoveTo actionWithDuration: speedOfEnemy position: ccp(startX, self.position.y)],
+                                         [CCMoveTo actionWithDuration: speedOfEnemy position: ccp(finishX, self.position.y)],
+                     nil]
+             ]
      ];
 }
 

@@ -5,9 +5,9 @@
 //  Created by Vlad on 01.03.13.
 //  Copyright 2013 __MyCompanyName__. All rights reserved.
 //
+//  
 
 #import "Bonus.h"
-
 
 @implementation Bonus
 

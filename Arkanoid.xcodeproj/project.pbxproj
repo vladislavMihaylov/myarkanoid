@@ -10,6 +10,7 @@
 		F500EA8F16DF26630077D7C6 /* GuiLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F500EA8E16DF26630077D7C6 /* GuiLayer.m */; };
 		F500EA9716DF32930077D7C6 /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = F500EA9616DF32930077D7C6 /* shot.wav */; };
 		F500F7CD17180F9700B06E07 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = F500F7CC17180F9700B06E07 /* Enemy.m */; };
+		F5019A56171AAED000CFA8B8 /* BoomBoom.m in Sources */ = {isa = PBXBuildFile; fileRef = F5019A55171AAED000CFA8B8 /* BoomBoom.m */; };
 		F501B42C16E1B3CD005FE7F4 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B42B16E1B3CD005FE7F4 /* bullet.png */; };
 		F501B43316E1C55A005FE7F4 /* ballSprite.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B43216E1C55A005FE7F4 /* ballSprite.png */; };
 		F501B43516E1D750005FE7F4 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F501B43416E1D750005FE7F4 /* bg.png */; };
@@ -28,6 +29,10 @@
 		F504674916E333CE002FCC61 /* gun.png in Resources */ = {isa = PBXBuildFile; fileRef = F504674816E333CE002FCC61 /* gun.png */; };
 		F5071D7C1711EB4D0047DC9C /* block3.png in Resources */ = {isa = PBXBuildFile; fileRef = F5071D7B1711EB4D0047DC9C /* block3.png */; };
 		F5086BAD16E9C7BF00BFB2FD /* Noise-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F5086BAC16E9C7BF00BFB2FD /* Noise-hd.png */; };
+		F53C0652174628A600EFD20B /* playBtn-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F53C0650174628A600EFD20B /* playBtn-hd.png */; };
+		F53C0653174628A600EFD20B /* playBtnOn-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F53C0651174628A600EFD20B /* playBtnOn-hd.png */; };
+		F53C06561746294400EFD20B /* levelNumBg-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F53C06541746294400EFD20B /* levelNumBg-hd.png */; };
+		F53C06571746294400EFD20B /* levelNumBgOn-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F53C06551746294400EFD20B /* levelNumBgOn-hd.png */; };
 		F55775BC16E3450E009FB0C6 /* bonus_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F55775B616E3450E009FB0C6 /* bonus_1.png */; };
 		F55775BD16E3450E009FB0C6 /* bonus_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F55775B716E3450E009FB0C6 /* bonus_2.png */; };
 		F55775BE16E3450E009FB0C6 /* bonus_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F55775B816E3450E009FB0C6 /* bonus_3.png */; };
@@ -181,6 +186,8 @@
 		F500EA9616DF32930077D7C6 /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
 		F500F7CB17180F9700B06E07 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
 		F500F7CC17180F9700B06E07 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
+		F5019A54171AAED000CFA8B8 /* BoomBoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoomBoom.h; sourceTree = "<group>"; };
+		F5019A55171AAED000CFA8B8 /* BoomBoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoomBoom.m; sourceTree = "<group>"; };
 		F501B42B16E1B3CD005FE7F4 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		F501B43216E1C55A005FE7F4 /* ballSprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ballSprite.png; sourceTree = "<group>"; };
 		F501B43416E1D750005FE7F4 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
@@ -199,6 +206,10 @@
 		F504674816E333CE002FCC61 /* gun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gun.png; sourceTree = "<group>"; };
 		F5071D7B1711EB4D0047DC9C /* block3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block3.png; sourceTree = "<group>"; };
 		F5086BAC16E9C7BF00BFB2FD /* Noise-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Noise-hd.png"; sourceTree = "<group>"; };
+		F53C0650174628A600EFD20B /* playBtn-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playBtn-hd.png"; sourceTree = "<group>"; };
+		F53C0651174628A600EFD20B /* playBtnOn-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playBtnOn-hd.png"; sourceTree = "<group>"; };
+		F53C06541746294400EFD20B /* levelNumBg-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "levelNumBg-hd.png"; sourceTree = "<group>"; };
+		F53C06551746294400EFD20B /* levelNumBgOn-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "levelNumBgOn-hd.png"; sourceTree = "<group>"; };
 		F55775B616E3450E009FB0C6 /* bonus_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bonus_1.png; sourceTree = "<group>"; };
 		F55775B716E3450E009FB0C6 /* bonus_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bonus_2.png; sourceTree = "<group>"; };
 		F55775B816E3450E009FB0C6 /* bonus_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bonus_3.png; sourceTree = "<group>"; };
@@ -545,6 +556,8 @@
 		F5F9B9E016DE65C400C2F783 /* Arkanoid */ = {
 			isa = PBXGroup;
 			children = (
+				F5019A54171AAED000CFA8B8 /* BoomBoom.h */,
+				F5019A55171AAED000CFA8B8 /* BoomBoom.m */,
 				F5F9BB5816DE65C800C2F783 /* AppDelegate.h */,
 				F5F9BB5916DE65C800C2F783 /* AppDelegate.m */,
 				F5F9BB5B16DE65C800C2F783 /* GameLayer.h */,
@@ -587,10 +600,14 @@
 				F55775C416E36509009FB0C6 /* exitBtnForMenu.png */,
 				F501B47D16E20D23005FE7F4 /* levelNumBg.png */,
 				F501B47F16E20F39005FE7F4 /* levelNumBgOn.png */,
+				F53C06541746294400EFD20B /* levelNumBg-hd.png */,
+				F53C06551746294400EFD20B /* levelNumBgOn-hd.png */,
 				F501B44616E2062F005FE7F4 /* backBtnOn.png */,
 				F501B44716E2062F005FE7F4 /* backBtn.png */,
 				F501B44216E201F9005FE7F4 /* playBtn.png */,
 				F501B44416E202BC005FE7F4 /* playBtnOn.png */,
+				F53C0650174628A600EFD20B /* playBtn-hd.png */,
+				F53C0651174628A600EFD20B /* playBtnOn-hd.png */,
 				F55775B616E3450E009FB0C6 /* bonus_1.png */,
 				F55775B716E3450E009FB0C6 /* bonus_2.png */,
 				F55775B816E3450E009FB0C6 /* bonus_3.png */,
@@ -996,7 +1013,7 @@
 		F5F9B9C116DE65C400C2F783 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = F5F9B9C416DE65C400C2F783 /* Build configuration list for PBXProject "Arkanoid" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1064,6 +1081,10 @@
 				F55775FA16E37AC1009FB0C6 /* block0.png in Resources */,
 				F5086BAD16E9C7BF00BFB2FD /* Noise-hd.png in Resources */,
 				F5071D7C1711EB4D0047DC9C /* block3.png in Resources */,
+				F53C0652174628A600EFD20B /* playBtn-hd.png in Resources */,
+				F53C0653174628A600EFD20B /* playBtnOn-hd.png in Resources */,
+				F53C06561746294400EFD20B /* levelNumBg-hd.png in Resources */,
+				F53C06571746294400EFD20B /* levelNumBgOn-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,6 +1208,7 @@
 				F594F4C416DF60A700790133 /* SelectLevelLayer.m in Sources */,
 				F594F4CC16DFDDC600790133 /* Bonus.m in Sources */,
 				F500F7CD17180F9700B06E07 /* Enemy.m in Sources */,
+				F5019A56171AAED000CFA8B8 /* BoomBoom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,6 +1219,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1207,6 +1233,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
@@ -1218,6 +1245,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1226,6 +1257,7 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;

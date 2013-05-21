@@ -11,23 +11,22 @@
 
 @interface Ball: CCNode
 {
-    CCSprite *ballSprite;
+    @private
+        CCSprite *ballSprite;
+    @public
+        float multiplierX;
+        float multiplierY;
+        float differenceX; // Difference between positionX of ball & position X of platform
     
-    float multiplierX;
-    float multiplierY;
-    
-    BOOL IsBallRuned;
-    
-    float differenceX;
+        BOOL IsBallRuned;
 }
 
 + (Ball *) create;
 
 @property (nonatomic, assign) float multiplierX;
 @property (nonatomic, assign) float multiplierY;
+@property (nonatomic, assign) float differenceX;
 
 @property (nonatomic, assign) BOOL IsBallRuned;
-
-@property (nonatomic, assign) float differenceX;
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright 2013 __MyCompanyName__. All rights reserved.
 //
 
-#import "MainMenuLayer.h"
 #import "GameConfig.h"
 
+#import "MainMenuLayer.h"
 #import "SelectLevelLayer.h"
 
 @implementation MainMenuLayer
@@ -16,11 +16,9 @@
 +(CCScene *) scene
 {
 	CCScene *scene = [CCScene node];
-	
 	MainMenuLayer *layer = [MainMenuLayer node];
-	
 	[scene addChild: layer];
-	
+    
 	return scene;
 }
 

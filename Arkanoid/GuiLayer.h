@@ -13,10 +13,12 @@
 
 @interface GuiLayer: CCLayer
 {
-    GameLayer *gameLayer;
+    @private
+        CCLabelTTF *scoreLabel;
+        CCLabelTTF *livesLabel;
     
-    CCLabelTTF *scoreLabel;
-    CCLabelTTF *livesLabel;
+    @public
+        GameLayer *gameLayer;
 }
 
 - (void) updateScoreLabel: (NSInteger) score;

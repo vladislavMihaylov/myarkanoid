@@ -11,18 +11,18 @@
 
 @interface Platform: CCNode
 {
-    CCSprite *platformSprite;
-    
-    CCSprite *gunOne;
-    CCSprite *gunTwo;
+    @private
+        CCSprite *platformSprite;
+        CCSprite *gunOne;
+        CCSprite *gunTwo;
 }
 
 + (Platform *) create;
 
-- (void) doDoubleWidth;
-- (void) doUsuallyWidth;
+- (void) makeDoubleWidth;
+- (void) makeUsuallyWidth;
 
 - (void) activateGuns;
-- (void) removeGuns;
+- (void) hideGuns;
 
 @end

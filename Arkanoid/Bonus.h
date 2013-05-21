@@ -20,9 +20,10 @@ typedef enum {
 
 @interface Bonus: CCNode
 {
-    BonusType type;
-    
-    CCSprite *bonusSprite;
+    @private
+        CCSprite *bonusSprite;
+    @public
+        BonusType type;
 }
 
 + (Bonus *) create;

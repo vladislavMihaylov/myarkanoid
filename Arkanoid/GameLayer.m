@@ -6,10 +6,9 @@
 #import "Block.h"
 #import "Platform.h"
 #import "Enemy.h"
-
+#import "BoomBoom.h"
 #import "GameConfig.h"
 #import "SimpleAudioEngine.h"
-
 #import "Bonus.h"
 
 @implementation GameLayer
@@ -40,6 +39,8 @@
     [bonusesArray release];
     [bulletsArray release];
     [enemiesArray release];
+    [boomsArray release];
+    
 	[super dealloc];
 }
 
@@ -54,15 +55,9 @@
         bonusesArray = [[NSMutableArray alloc] init];
         bulletsArray = [[NSMutableArray alloc] init];
         enemiesArray = [[NSMutableArray alloc] init];
+        boomsArray = [[NSMutableArray alloc] init];
         
         self.isTouchEnabled = YES;
-        
-        //bg = [CCSprite spriteWithFile: @"bg.png"];
-        //bg.position = ccp(GameCenterX, GameCenterY);
-        //bg.opacity = 120;
-        //[self addChild: bg];
-        
-        
         
         portal = [CCSprite spriteWithFile: @"platform.png"];
         portal.position = ccp(GameCenterX, kGameHeight - 30);
@@ -73,7 +68,6 @@
         [self addChild: platform];
         
         [self startLevel];
-        
     }
     
 	return self;
@@ -115,6 +109,8 @@
     
     [self checkCollisionsEnemyWithBall];
     
+    [self checkBulletCollisionWithEnemy];
+    
     for(Ball *currentBall in ballsArray)
     {
         if(currentBall.IsBallRuned)
@@ -152,6 +148,10 @@
         [curEnemy pauseSchedulerAndActions];
     }
 
+    for(BoomBoom *curBoom in boomsArray)
+    {
+        [curBoom pauseSchedulerAndActions];
+    }
     
     for(Bonus *curBonus in bonusesArray)
     {
@@ -173,6 +173,11 @@
     for(Enemy *curEnemy in enemiesArray)
     {
         [curEnemy resumeSchedulerAndActions];
+    }
+    
+    for(BoomBoom *curBoom in boomsArray)
+    {
+        [curBoom resumeSchedulerAndActions];
     }
     
     for(Bonus *curBonus in bonusesArray)
@@ -236,6 +241,10 @@
     NSString *allLevels = [[NSBundle mainBundle] pathForResource: @"levels" ofType: @"plist"];
 
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: allLevels];
+    
+    //NSURL *url = [NSURL URLWithString:kLevelsURL];
+    
+    //NSDictionary *dict = [[[NSDictionary alloc] initWithContentsOfURL: url] autorelease];
     
     NSDictionary *dataForCurrentLevel = [dict valueForKey: [NSString stringWithFormat: @"level_%i", currentLevel]];
     
@@ -789,6 +798,13 @@
                 
                 if(curBlock.health <= 0)
                 {
+                    BoomBoom *boom = [BoomBoom create];
+                    boom.position = curBlock.position;
+                    [boomsArray addObject: boom];
+                    [self addChild: boom];
+                    
+                    [boom bang];
+                    
                     [blockForRemove addObject: curBlock];
                     
                     NSInteger randNumForBonus = arc4random() % 10;
@@ -831,7 +847,7 @@
 
 - (void) checkPortalCollisionWithBall
 {
-    if([blocksArray count] == 0)
+    if([blocksArray count] == 0 && [enemiesArray count] == 0)
     {
         for(Ball *curBall in ballsArray)
         {
@@ -857,6 +873,7 @@
 {
     NSMutableArray *bulletsToRemove = [[NSMutableArray alloc] init];
     NSMutableArray *blocksToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *boomsToRemove = [[NSMutableArray alloc] init];
     
     for(CCSprite *curBullet in bulletsArray)
     {
@@ -871,9 +888,17 @@
                 
                 [curBlock updateSprite: curBlock.health];
                 
-                if(curBlock.health == 0)
+                if(curBlock.health <= 0)
                 {
+                    BoomBoom *boom = [BoomBoom create];
+                    boom.position = curBlock.position;
+                    [boomsArray addObject: boom];
+                    [self addChild: boom];
+                    
+                    [boom bang];
+                    
                     [blocksToRemove addObject: curBlock];
+                    [boomsToRemove addObject: boom];
                 }
             }
         }
@@ -891,9 +916,67 @@
         [blocksArray removeObject: curBlockToRemove];
     }
     
+    for (BoomBoom *curBoom in boomsToRemove)
+    {
+        [self removeChild: curBoom cleanup: YES];
+        [boomsArray removeObject: curBoom];
+    }
+    
+    if([blocksArray count] == 0 && [enemiesArray count] == 0)
+    {
+        IsPortalActive = YES;
+    }
+    
     [bulletsToRemove release];
     [blocksToRemove release];
+    [boomsToRemove release];
 }
+
+- (void) checkBulletCollisionWithEnemy
+{
+    NSMutableArray *bulletsToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *enemiesToRemove = [[NSMutableArray alloc] init];
+    
+    for(CCSprite *curBullet in bulletsArray)
+    {
+        for(Enemy *curBlock in enemiesArray)
+        {
+            if((fabs(curBullet.position.y - curBlock.position.y) <= fabs(curBullet.contentSize.height / 2 + curBlock.contentSize.height / 2)) &&
+               (fabs(curBullet.position.x - curBlock.position.x) <= fabs(curBullet.contentSize.width / 2 + curBlock.contentSize.width / 2)))
+            {
+                [bulletsToRemove addObject: curBullet];
+                
+                curBlock.health -= 1;
+                
+                if(curBlock.health <= 0)
+                {
+                    [enemiesToRemove addObject: curBlock];
+                }
+            }
+        }
+    }
+    
+    for(CCSprite *curBulletToRemove in bulletsToRemove)
+    {
+        [self removeChild: curBulletToRemove cleanup: YES];
+        [bulletsArray removeObject: curBulletToRemove];
+    }
+    
+    for(Enemy *curBlockToRemove in enemiesToRemove)
+    {
+        [self removeChild: curBlockToRemove cleanup: YES];
+        [enemiesArray removeObject: curBlockToRemove];
+    }
+    
+    if([blocksArray count] == 0 && [enemiesArray count] == 0)
+    {
+        IsPortalActive = YES;
+    }
+    
+    [bulletsToRemove release];
+    [enemiesToRemove release];
+}
+
 
 - (void) removeBullets
 {
@@ -934,7 +1017,7 @@
         if(!IsPlatformIsFat)
         {
             IsPlatformIsFat = YES;
-            [platform doDoubleWidth];
+            [platform makeDoubleWidth];
             [self schedule: @selector(returnNormalPlatform) interval: 15];
         }
         
@@ -993,13 +1076,13 @@
 {
     [self unschedule: @selector(shot)];
     IsGunBonusActive = NO;
-    [platform removeGuns];
+    [platform hideGuns];
     [self unschedule: @selector(removeGuns)];
 }
 
 - (void) returnNormalPlatform
 {
-    [platform doUsuallyWidth];
+    [platform makeUsuallyWidth];
     IsPlatformIsFat = NO;
     [self unschedule: @selector(returnNormalPlatform)];
 }

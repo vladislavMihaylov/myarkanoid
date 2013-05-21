@@ -25,19 +25,19 @@
 {
     if(self = [super init])
     {
-        multiplierX = 1;
-        multiplierY = 1;
-        
-        IsBallRuned = NO;
-        
-        differenceX = 0;
-        
         ballSprite = [CCSprite spriteWithFile: @"ballSprite.png"];
         
         CGSize spriteSize = [ballSprite contentSize];
         self.contentSize = spriteSize;
         
         [self addChild: ballSprite];
+        
+        multiplierX = 1;
+        multiplierY = 1;
+        
+        IsBallRuned = NO;
+        
+        differenceX = 0;
     }
     
     return self;

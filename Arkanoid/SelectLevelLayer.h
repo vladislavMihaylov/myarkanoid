@@ -11,7 +11,8 @@
 
 @interface SelectLevelLayer: CCLayer
 {
-    
+    @private
+    CCMenu *selectLevelMenu;
 }
 
 + (CCScene *) scene;

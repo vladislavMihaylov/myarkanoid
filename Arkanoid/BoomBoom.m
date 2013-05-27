@@ -8,8 +8,11 @@
 
 #import "BoomBoom.h"
 
+#import "GameLayer.h"
 
 @implementation BoomBoom
+
+@synthesize gameLayer;
 
 + (BoomBoom *) create
 {
@@ -38,7 +41,12 @@
 - (void) bang
 {
     [self runAction: [CCRotateTo actionWithDuration: 0.5 angle: 720]];
-    [self runAction: [CCSequence actions: [CCScaleTo actionWithDuration: 0.25 scale: 2.5], [CCScaleTo actionWithDuration: 0.25 scale: 0], nil]];
+    
+    [self runAction: [CCSequence actions: [CCScaleTo actionWithDuration: 0.25 scale: 2.5],
+                     [CCScaleTo actionWithDuration: 0.25 scale: 0], nil]];
+    
+    [self runAction: [CCSequence actions: [CCDelayTime actionWithDuration: 1.01],
+                      [CCCallBlock actionWithBlock:^(void){[gameLayer removeBoom: self];}], nil]];
 }
 
 @end

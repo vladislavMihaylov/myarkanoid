@@ -31,6 +31,10 @@
 {
 	if( (self=[super init]) )
     {
+        CCSprite *gameBg = [CCSprite spriteWithFile: @"bg2.png"];
+        gameBg.position = ccp(GameCenterX, GameCenterY);
+        [self addChild: gameBg];
+        
         CCMenuItemImage *playBtn = [CCMenuItemImage itemWithNormalImage: @"playBtn.png"
                                                           selectedImage: @"playBtnOn.png"
                                                                  target: self

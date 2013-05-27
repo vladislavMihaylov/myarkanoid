@@ -50,14 +50,13 @@
     {
         [[SimpleAudioEngine sharedEngine] preloadEffect: @"shot.wav"];
         
-        ballsArray = [[NSMutableArray alloc] init];
-        blocksArray = [[NSMutableArray alloc] init];
-        bonusesArray = [[NSMutableArray alloc] init];
-        bulletsArray = [[NSMutableArray alloc] init];
-        enemiesArray = [[NSMutableArray alloc] init];
-        boomsArray = [[NSMutableArray alloc] init];
-        
         self.isTouchEnabled = YES;
+        
+        [self initializeArrays];
+        
+        CCSprite *gameBg = [CCSprite spriteWithFile: @"bg2.png"];
+        gameBg.position = ccp(GameCenterX, GameCenterY);
+        [self addChild: gameBg];
         
         portal = [CCSprite spriteWithFile: @"platform.png"];
         portal.position = ccp(GameCenterX, kGameHeight - 30);
@@ -72,6 +71,172 @@
     
 	return self;
 }
+
+- (void) initializeArrays
+{
+    ballsArray = [[NSMutableArray alloc] init];
+    blocksArray = [[NSMutableArray alloc] init];
+    bonusesArray = [[NSMutableArray alloc] init];
+    bulletsArray = [[NSMutableArray alloc] init];
+    enemiesArray = [[NSMutableArray alloc] init];
+    boomsArray = [[NSMutableArray alloc] init];
+}
+
+- (void) resetParametersOfLevel
+{
+    score = 0;
+    lives = 3;
+    
+    [guiLayer updateScoreLabel: score];
+    [guiLayer updateLivesLabel: lives];
+    
+    IsGunBonusActive = NO;
+    [self unschedule: @selector(shot)];
+    
+    [self turnOffAllBonuses];
+    
+    for(CCSprite *curBullet in bulletsArray)
+    {
+        [self removeChild: curBullet cleanup: YES];
+    }
+    
+    for(Ball *curBall in ballsArray)
+    {
+        [self removeChild: curBall cleanup: YES];
+    }
+    
+    for(Enemy *curEnemy in enemiesArray)
+    {
+        [self removeChild: curEnemy cleanup: YES];
+    }
+    
+    for(Bonus *curBonus in bonusesArray)
+    {
+        [self removeChild: curBonus cleanup: YES];
+    }
+    
+    for(BoomBoom *curBoom in boomsArray)
+    {
+        [self removeChild: curBoom cleanup: YES];
+    }
+    
+    [ballsArray removeAllObjects];
+    [bonusesArray removeAllObjects];
+    [bulletsArray removeAllObjects];
+    [boomsArray removeAllObjects];
+}
+
+- (NSArray *) getArrayWithParametersOfLevelForType: (NSInteger) type
+{
+    NSArray *dataArray = nil;
+    
+    NSString *allLevels = [[NSBundle mainBundle] pathForResource: @"levels" ofType: @"plist"];
+    
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: allLevels];
+    
+    //NSURL *url = [NSURL URLWithString:kLevelsURL];
+    //NSDictionary *dict = [[[NSDictionary alloc] initWithContentsOfURL: url] autorelease];
+    
+    NSDictionary *dataForCurrentLevel = [dict valueForKey: [NSString stringWithFormat: @"level_%i", currentLevel]];
+    
+    if(type == kIsLevelType)
+    {
+        NSString *coordinats = [dataForCurrentLevel valueForKey: @"coordinats"];
+       dataArray = [coordinats componentsSeparatedByString: @","];
+    }
+    else if(type == kIsEnemyType)
+    {
+        NSString *enemiesParameters = [dataForCurrentLevel valueForKey: @"enemies"];
+        dataArray = [enemiesParameters componentsSeparatedByString: @","];
+    }
+    else
+    {
+        CCLOG(@"Error. Unknow type of parameter.");
+    }
+    
+    return dataArray;
+}
+
+- (void) setParametersForBlocks: (NSArray *) arrayWithCoordinats
+{
+    NSInteger countOfBlocks = [arrayWithCoordinats count] / kCountParametersOfBlock;
+    
+    for(int i = 0; i < countOfBlocks; i++)
+    {
+        float posX = [[arrayWithCoordinats objectAtIndex: (i*3)] floatValue];
+        float posY = [[arrayWithCoordinats objectAtIndex: ((i*3)+1)] floatValue];
+        NSInteger health = [[arrayWithCoordinats objectAtIndex: ((i*3)+2)] integerValue];
+        
+        Block *block = [Block create];
+        block.position = ccp(posX, posY);
+        block.health = health;
+        [block updateSprite: health];
+        [blocksArray addObject: block];
+        [self addChild: block];
+    }
+}
+
+- (void) setParametersForEnemies: (NSArray *) arrayWithParametersOfEnemies
+{
+    NSInteger countOfEnemies = [arrayWithParametersOfEnemies count] / kCountParametersOfEnemy;
+    
+    for(int i = 0; i < countOfEnemies; i++)
+    {
+        float posX = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)] floatValue];
+        float posY = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+1] floatValue];
+        float leftB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+2] floatValue];
+        float rightB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+3] floatValue];
+        
+        float speedOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+4] floatValue];
+        
+        BOOL directionIsRight = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+5] boolValue];
+        BOOL isCanShooting = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+6] boolValue];
+        
+        NSInteger typeOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+7] intValue];
+        float speedOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+8] floatValue];
+        
+        NSInteger healthOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+9] intValue];
+        
+        Enemy *enemy = [Enemy createWithBorders: leftB angRight: rightB];
+        
+        enemy.position = ccp(posX, posY);
+        enemy.directionIsRight = directionIsRight;
+        enemy.health = healthOfEnemy;
+        
+        [self addChild: enemy];
+        
+        [enemiesArray addObject: enemy];
+        
+        [enemy moveWithSpeed: speedOfEnemy];
+        
+        if(isCanShooting)
+        {
+            CCLOG(@"Type %i speed: %f health %i", typeOfBullet, speedOfBullet, healthOfEnemy);
+        }
+    }
+}
+
+- (void) startLevel
+{
+    [self resetParametersOfLevel];
+    
+    ball = [Ball create];
+    [ballsArray addObject: ball];
+    [self addChild: ball];
+    
+    ball.position = ccp(platform.position.x, platform.position.y + platform.contentSize.height / 2 + ball.contentSize.height / 2 + 1);
+    
+    [self setParametersForBlocks: [self getArrayWithParametersOfLevelForType: kIsLevelType]];
+    
+    [self setParametersForEnemies: [self getArrayWithParametersOfLevelForType: kIsEnemyType]];
+    
+    CCLOG(@"LOADED OK; Balls: %i Blocks: %i", [ballsArray count], [blocksArray count]);
+    
+    [self unscheduleUpdate];
+    [self scheduleUpdate];
+}
+
+#pragma mark gameProcess
 
 - (void) update: (ccTime) dt
 {
@@ -111,11 +276,18 @@
     
     [self checkBulletCollisionWithEnemy];
     
+    Ball *lastBall = [ballsArray objectAtIndex: 0];
+    
+    [platform showCoordinats: lastBall.position];
+    
     for(Ball *currentBall in ballsArray)
     {
+        
         if(currentBall.IsBallRuned)
         {
-            [currentBall setPosition: ccp(currentBall.position.x + BallSpeed * currentBall.multiplierX, currentBall.position.y + BallSpeed * currentBall.multiplierY)];
+            [currentBall setPosition: ccp(currentBall.position.x + BallSpeed * currentBall.multiplierX,
+                                          currentBall.position.y + BallSpeed * currentBall.multiplierY)
+             ];
         }
     }
 }
@@ -168,8 +340,6 @@
 
 - (void) unPause
 {
-    self.isTouchEnabled = YES;
-    
     for(Enemy *curEnemy in enemiesArray)
     {
         [curEnemy resumeSchedulerAndActions];
@@ -190,258 +360,9 @@
         [curBullet resumeSchedulerAndActions];
     }
     
+    self.isTouchEnabled = YES;
+    
     [self resumeSchedulerAndActions];
-}
-
-- (void) startLevel
-{
-    [self genBackground];
-    
-    score = 0;
-    lives = 3;
-    
-    [guiLayer updateScoreLabel: score];
-    [guiLayer updateLivesLabel: lives];
-    
-    IsGunBonusActive = NO;
-    [self unschedule: @selector(shot)];
-    
-    [self turnOffAllBonuses];
-    
-    for(CCSprite *curBullet in bulletsArray)
-    {
-        [self removeChild: curBullet cleanup: YES];
-    }
-    
-    for(Ball *curBall in ballsArray)
-    {
-        [self removeChild: curBall cleanup: YES];
-    }
-    
-    for(Enemy *curEnemy in enemiesArray)
-    {
-        [self removeChild: curEnemy cleanup: YES];
-    }
-    
-    for(Bonus *curBonus in bonusesArray)
-    {
-        [self removeChild: curBonus cleanup: YES];
-    }
-    
-    [ballsArray removeAllObjects];
-    [bonusesArray removeAllObjects];
-    [bulletsArray removeAllObjects];
-    
-    ball = [Ball create];
-    [ballsArray addObject: ball];
-    [self addChild: ball];
-    
-    ball.position = ccp(platform.position.x, platform.position.y + platform.contentSize.height / 2 + ball.contentSize.height / 2 + 1);
-    
-    NSString *allLevels = [[NSBundle mainBundle] pathForResource: @"levels" ofType: @"plist"];
-
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: allLevels];
-    
-    //NSURL *url = [NSURL URLWithString:kLevelsURL];
-    
-    //NSDictionary *dict = [[[NSDictionary alloc] initWithContentsOfURL: url] autorelease];
-    
-    NSDictionary *dataForCurrentLevel = [dict valueForKey: [NSString stringWithFormat: @"level_%i", currentLevel]];
-    
-    NSString *coordinats = [dataForCurrentLevel valueForKey: @"coordinats"];
-    
-    NSString *enemiesParameters = [dataForCurrentLevel valueForKey: @"enemies"];
-    
-    NSArray *arrayWithCoordinats = [coordinats componentsSeparatedByString: @","];
-    NSArray *arrayWithParametersOfEnemies = [enemiesParameters componentsSeparatedByString: @","];
-    
-    NSInteger countOfBlocks = [arrayWithCoordinats count] / 3;
-    NSInteger countOfEnemies = [arrayWithParametersOfEnemies count] / 10;
-    
-    for(int i = 0; i < countOfBlocks; i++)
-    {
-        float posX = [[arrayWithCoordinats objectAtIndex: (i*3)] floatValue];
-        float posY = [[arrayWithCoordinats objectAtIndex: ((i*3)+1)] floatValue];
-        NSInteger health = [[arrayWithCoordinats objectAtIndex: ((i*3)+2)] integerValue];
-        
-        Block *block = [Block create];
-        block.position = ccp(posX, posY);
-        block.health = health;
-        [block updateSprite: health];
-        [blocksArray addObject: block];
-        [self addChild: block];
-    }
-    
-    for(int i = 0; i < countOfEnemies; i++)
-    {
-        float posX = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)] floatValue];
-        float posY = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+1] floatValue];
-        float leftB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+2] floatValue];
-        float rightB = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+3] floatValue];
-    
-        float speedOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+4] floatValue];
-        
-        BOOL directionIsRight = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+5] boolValue];
-        BOOL isCanShooting = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+6] boolValue];
-        
-        NSInteger typeOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+7] intValue];
-        float speedOfBullet = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+8] floatValue];
-        
-        NSInteger healthOfEnemy = [[arrayWithParametersOfEnemies objectAtIndex: (i*10)+9] intValue];
-        
-        Enemy *enemy = [Enemy createWithBorders: leftB angRight: rightB];
-        
-        enemy.position = ccp(posX, posY);
-        enemy.directionIsRight = directionIsRight;
-        enemy.health = healthOfEnemy;
-        
-        [self addChild: enemy];
-        
-        [enemiesArray addObject: enemy];
-        
-        [enemy moveWithSpeed: speedOfEnemy];
-        
-        if(isCanShooting)
-        {
-            CCLOG(@"Type %i speed: %f health %i", typeOfBullet, speedOfBullet, healthOfEnemy);
-        }
-    }
-    
-    
-    
-    CCLOG(@"LOADED OK; Balls: %i Blocks: %i", [ballsArray count], [blocksArray count]);
-    
-    [self unscheduleUpdate];
-    [self scheduleUpdate];
-}
-
-- (ccColor4F) generateRandomColor
-{
-    while (true) {
-        float requiredBrightness = 192;
-        ccColor4B randomColor =
-        ccc4(arc4random() % 255,
-             arc4random() % 255,
-             arc4random() % 255,
-             255);
-        if (randomColor.r > requiredBrightness ||
-            randomColor.g > requiredBrightness ||
-            randomColor.b > requiredBrightness) {
-            return ccc4FFromccc4B(randomColor);
-        }
-    }
-}
-
-- (void) genBackground
-{
-    [_background removeFromParentAndCleanup:YES];
-    
-    ccColor4F bgColor = [self generateRandomColor];
-    ccColor4F color2 = [self generateRandomColor];
-    //_background = [self spriteWithColor:bgColor textureSize:512];
-    int nStripes = ((arc4random() % 8) + 4) * 2;
-    _background = [self stripedSpriteWithColor1:bgColor color2:color2 textureSize: 512 stripes:nStripes];
-    
-    //self.scale = 0.5;
-    
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    _background.position = ccp(winSize.width/2, winSize.height/2);
-    [self addChild:_background z:-1];
-}
-
--(CCSprite *)spriteWithColor:(ccColor4F)bgColor textureSize:(float)textureSize {
-    
-    // 1: Create new CCRenderTexture
-    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
-    
-    // 2: Call CCRenderTexture:begin
-    [rt beginWithClear:bgColor.r g:bgColor.g b:bgColor.b a:bgColor.a];
-    
-    // 3: Draw into the texture
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color );
-    
-    float gradientAlpha = 0.7;
-    CGPoint vertices[4];
-    ccColor4F colors[4];
-    int nVertices = 0;
-    
-    vertices[nVertices] = CGPointMake(0, 0);
-    colors[nVertices++] = (ccColor4F){0, 0, 0, 0 };
-    vertices[nVertices] = CGPointMake(textureSize*CC_CONTENT_SCALE_FACTOR(), 0);
-    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
-    vertices[nVertices] = CGPointMake(0, textureSize*CC_CONTENT_SCALE_FACTOR());
-    colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-    vertices[nVertices] = CGPointMake(textureSize*CC_CONTENT_SCALE_FACTOR(), textureSize*CC_CONTENT_SCALE_FACTOR());
-    colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
-    
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, colors);
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
-    
-    CCSprite *noise = [CCSprite spriteWithFile:@"Noise.png"];
-    [noise setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
-    noise.position = ccp(textureSize/2, textureSize/2);
-    [noise visit];
-    
-    // 4: Call CCRenderTexture:end
-    [rt end];
-    
-    // 5: Create a new Sprite from the texture
-    return [CCSprite spriteWithTexture:rt.sprite.texture];
-    
-}
-
--(CCSprite *)stripedSpriteWithColor1:(ccColor4F)c1 color2:(ccColor4F)c2 textureSize:(float)textureSize  stripes:(int)nStripes {
-    
-    // 1: Create new CCRenderTexture
-    CCRenderTexture *rt = [CCRenderTexture renderTextureWithWidth:textureSize height:textureSize];
-    
-    // 2: Call CCRenderTexture:begin
-    [rt beginWithClear:c1.r g:c1.g b:c1.b a:c1.a];
-    
-    // 3: Draw into the texture
-    
-    // Layer 1: Stripes
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_Color );
-    
-    CGPoint vertices[nStripes*6];
-    int nVertices = 0;
-    float x1 = -textureSize;
-    float x2;
-    float y1 = textureSize;
-    float y2 = 0;
-    float dx = textureSize / nStripes * 2;
-    float stripeWidth = dx/2;
-    for (int i=0; i<nStripes; i++) {
-        x2 = x1 + textureSize;
-        vertices[nVertices++] = ccpMult(CGPointMake(x1, y1), CC_CONTENT_SCALE_FACTOR());
-        vertices[nVertices++] = ccpMult(CGPointMake(x1+stripeWidth, y1), CC_CONTENT_SCALE_FACTOR());
-        vertices[nVertices++] = ccpMult(CGPointMake(x2, y2), CC_CONTENT_SCALE_FACTOR());
-        vertices[nVertices++] = vertices[nVertices-2];
-        vertices[nVertices++] = vertices[nVertices-2];
-        vertices[nVertices++] = ccpMult(CGPointMake(x2+stripeWidth, y2), CC_CONTENT_SCALE_FACTOR());
-        x1 += dx;
-    }
-    
-    ccDrawColor4F(c2.r, c2.g, c2.b, c2.a);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
-    
-
-    
-    // Layer 2: Noise
-    CCSprite *noise = [CCSprite spriteWithFile:@"Noise.png"];
-    [noise setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
-    noise.position = ccp(textureSize/2, textureSize/2);
-    [noise visit];
-    
-    // 4: Call CCRenderTexture:end
-    [rt end];
-    
-    // 5: Create a new Sprite from the texture
-    return [CCSprite spriteWithTexture:rt.sprite.texture];
-    
 }
 
 #pragma mark For fun
@@ -695,7 +616,8 @@
                 currentBall.multiplierX = 1;
                 currentBall.IsBallRuned = NO;
                 
-                [currentBall setPosition: ccp(platform.position.x, platform.position.y + platform.contentSize.height / 2 + currentBall.contentSize.height / 2 + 1)];
+                [currentBall setPosition: ccp(platform.position.x,
+                                              platform.position.y + platform.contentSize.height / 2 + currentBall.contentSize.height / 2 + 1)];
             }
             else
             {
@@ -800,6 +722,7 @@
                 {
                     BoomBoom *boom = [BoomBoom create];
                     boom.position = curBlock.position;
+                    boom.gameLayer = self;
                     [boomsArray addObject: boom];
                     [self addChild: boom];
                     
@@ -843,6 +766,13 @@
     
     [blockForRemove release];
  
+}
+
+- (void) removeBoom: (BoomBoom *) boom
+{
+    [self removeChild: boom cleanup: YES];
+    
+    [boomsArray removeObject: boom];
 }
 
 - (void) checkPortalCollisionWithBall

@@ -14,37 +14,41 @@
 
 #import "GuiLayer.h"
 
+@class BoomBoom;
 @class Platform;
 @class Ball;
 
 @interface GameLayer: CCLayer
 {
-    GuiLayer *gui;
+    @private
+        Ball *ball;
+        Ball *newBall;
+        Platform *platform;
+        
+        CCSprite *background;
+        CCSprite *portal;
+        
+        NSInteger score;
+        NSInteger lives;
+        
+        NSMutableArray *ballsArray;
+        NSMutableArray *blocksArray;
+        NSMutableArray *bonusesArray;
+        NSMutableArray *bulletsArray;
+        NSMutableArray *enemiesArray;
+        NSMutableArray *boomsArray;
     
-    Ball *ball;
-    Ball *newBall;
-    Platform *platform;
-    
-    CCSprite *_background;
-    CCSprite *portal;
-    
-    NSInteger score;
-    NSInteger lives;
-    
-    NSMutableArray *ballsArray;
-    NSMutableArray *blocksArray;
-    NSMutableArray *bonusesArray;
-    NSMutableArray *bulletsArray;
-    NSMutableArray *enemiesArray;
-    NSMutableArray *boomsArray;
+    @public
+        GuiLayer *gui;
 }
 
 - (void) pause;
 - (void) unPause;
 
 - (void) nextLevel;
+- (void) removeBoom: (BoomBoom *) boom;
 
-@property (nonatomic, assign) GuiLayer *guiLayer;
+@property (nonatomic, retain) GuiLayer *guiLayer;
 
 +(CCScene *) scene;
 

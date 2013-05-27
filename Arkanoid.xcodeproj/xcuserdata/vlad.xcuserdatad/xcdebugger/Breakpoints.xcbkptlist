@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
+         timestampString = "391351274.509804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "526"
-         endingLineNumber = "526"
+         startingLineNumber = "441"
+         endingLineNumber = "441"
          landmarkName = "-ccTouchEnded:withEvent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208721.888049"
+         timestampString = "391352588.891857"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1026"
-         endingLineNumber = "1026"
+         startingLineNumber = "950"
+         endingLineNumber = "950"
          landmarkName = "-applyBonus:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208721.888049"
+         timestampString = "391352588.891857"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1028"
-         endingLineNumber = "1028"
+         startingLineNumber = "952"
+         endingLineNumber = "952"
          landmarkName = "-applyBonus:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,50 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "387629472.788838"
+         timestampString = "390812886.908316"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "215"
-         endingLineNumber = "215"
-         landmarkName = "-startLevel"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Arkanoid/GameLayer.m"
-         timestampString = "387629472.788838"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "230"
-         endingLineNumber = "230"
-         landmarkName = "-startLevel"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "315"
-         endingLineNumber = "315"
-         landmarkName = "-startLevel"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Arkanoid/GameLayer.m"
-         timestampString = "387629472.788838"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
+         startingLineNumber = "261"
+         endingLineNumber = "261"
          landmarkName = "-update:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -125,24 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
+         timestampString = "391351274.509804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
-         landmarkName = "-startLevel"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "697"
-         endingLineNumber = "697"
+         startingLineNumber = "612"
+         endingLineNumber = "612"
          landmarkName = "-checkWallCollisionsWithBall"
          landmarkType = "5">
       </FileBreakpoint>
@@ -151,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
+         timestampString = "391351274.509804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "682"
-         endingLineNumber = "682"
+         startingLineNumber = "597"
+         endingLineNumber = "597"
          landmarkName = "-checkWallCollisionsWithBall"
          landmarkType = "5">
       </FileBreakpoint>
@@ -164,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
+         timestampString = "391351274.509804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "701"
-         endingLineNumber = "701"
+         startingLineNumber = "617"
+         endingLineNumber = "617"
          landmarkName = "-checkWallCollisionsWithBall"
          landmarkType = "5">
       </FileBreakpoint>
@@ -177,11 +125,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/Platform.m"
-         timestampString = "390768641.478989"
+         timestampString = "391346871.350885"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "84"
-         endingLineNumber = "84"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
          landmarkName = "-makeUsuallyWidth"
          landmarkType = "5">
       </FileBreakpoint>
@@ -190,11 +138,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/Platform.m"
-         timestampString = "390768641.478989"
+         timestampString = "391346871.350885"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
+         startingLineNumber = "115"
+         endingLineNumber = "115"
          landmarkName = "-activateGuns"
          landmarkType = "5">
       </FileBreakpoint>
@@ -203,11 +151,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/Platform.m"
-         timestampString = "390768641.478989"
+         timestampString = "391346871.350885"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "98"
-         endingLineNumber = "98"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
          landmarkName = "-hideGuns"
          landmarkType = "5">
       </FileBreakpoint>
@@ -216,24 +164,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "387629472.788838"
+         timestampString = "391351274.509804"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "200"
-         endingLineNumber = "200"
-         landmarkName = "-startLevel"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208141.790723"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "724"
-         endingLineNumber = "724"
+         startingLineNumber = "640"
+         endingLineNumber = "640"
          landmarkName = "-checkCollisionsEnemyWithBall"
          landmarkType = "5">
       </FileBreakpoint>
@@ -242,11 +177,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GameLayer.m"
-         timestampString = "389208721.888049"
+         timestampString = "391352588.891857"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "949"
-         endingLineNumber = "949"
+         startingLineNumber = "873"
+         endingLineNumber = "873"
          landmarkName = "-checkBulletCollisionWithEnemy"
          landmarkType = "5">
       </FileBreakpoint>
@@ -255,11 +190,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Arkanoid/GuiLayer.m"
-         timestampString = "390807927.549992"
+         timestampString = "390810666.763994"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "68"
-         endingLineNumber = "68"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
          landmarkName = "-showPauseMenu"
          landmarkType = "5">
       </FileBreakpoint>

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+@class GameLayer;
+
 @interface BoomBoom: CCNode
 {
     
@@ -17,5 +19,7 @@
 + (BoomBoom *) create;
 
 - (void) bang;
+
+@property (nonatomic, retain) GameLayer *gameLayer;
 
 @end

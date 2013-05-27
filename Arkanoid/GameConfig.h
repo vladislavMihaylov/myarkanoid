@@ -8,12 +8,18 @@
 
 #define kCountItemsInTheLevelsMenu      15
 #define kCountOfColumnsInTheLevelsMenu  3
-#define kMultiplierForSelectLevelPosY   1.0833333
+#define kMultiplierForSelectLevelPosY   1.0033333
 #define kPosForBackBtn                  ccp(55, 45)
 
 // GameLayer
 
 #define pauseMenuTag                    1
+
+#define kCountParametersOfBlock         3
+#define kCountParametersOfEnemy         10
+
+#define kIsLevelType                    0
+#define kIsEnemyType                    1
 
 // Other
 

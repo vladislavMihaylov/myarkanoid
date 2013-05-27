@@ -15,6 +15,12 @@
         CCSprite *platformSprite;
         CCSprite *gunOne;
         CCSprite *gunTwo;
+    
+        CCSprite *leftEye;
+        CCSprite *rightEye;
+        
+        CCSprite *leftPipul;
+        CCSprite *rightPipul;
 }
 
 + (Platform *) create;
@@ -24,5 +30,7 @@
 
 - (void) activateGuns;
 - (void) hideGuns;
+
+- (void) showCoordinats: (CGPoint) pointOfBall;
 
 @end

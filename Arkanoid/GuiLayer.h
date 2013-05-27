@@ -24,6 +24,6 @@
 - (void) updateScoreLabel: (NSInteger) score;
 - (void) updateLivesLabel: (NSInteger) lives;
 
-@property (nonatomic, assign) GameLayer *gameLayer;
+@property (nonatomic, retain) GameLayer *gameLayer;
 
 @end

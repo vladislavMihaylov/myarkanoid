@@ -7,6 +7,7 @@
 //
 
 #import "Platform.h"
+#import "GameConfig.h"
 
 @implementation Platform
 
@@ -28,7 +29,7 @@
     {
         // Platform
         
-        platformSprite = [CCSprite spriteWithFile: @"platform.png"];
+        platformSprite = [CCSprite spriteWithFile: @"newPlatform.png"];
         
         CGSize platformSpriteSize = [platformSprite contentSize];
         self.contentSize = platformSpriteSize;
@@ -50,6 +51,28 @@
         
         [self addChild: gunOne z: 2];
         [self addChild: gunTwo z: 2];
+        
+        // Eyes
+        
+        leftEye = [CCSprite spriteWithFile: @"eye.png"];
+        rightEye = [CCSprite spriteWithFile: @"eye.png"];
+        
+        leftEye.position = ccp(-self.contentSize.width / 2.8 , self.contentSize.height * 0.6);
+        rightEye.position = ccp(self.contentSize.width / 2.8 , self.contentSize.height * 0.6);
+        
+        [self addChild: leftEye z: 3];
+        [self addChild: rightEye z: 3];
+        
+        // Pipuls
+        
+        leftPipul = [CCSprite spriteWithFile: @"appleOfEye.png"];
+        rightPipul = [CCSprite spriteWithFile: @"appleOfEye.png"];
+        
+        leftPipul.position = ccp(leftEye.contentSize.width / 2, leftEye.contentSize.height / 2);
+        rightPipul.position = ccp(rightEye.contentSize.width / 2, rightEye.contentSize.height / 2);
+        
+        [leftEye addChild: leftPipul z: 4];
+        [rightEye addChild: rightPipul z: 4];
     }
     
     return self;
@@ -75,7 +98,7 @@
 {
     [self removeChild: platformSprite cleanup: YES];
     
-    platformSprite = [CCSprite spriteWithFile: @"platform.png"];
+    platformSprite = [CCSprite spriteWithFile: @"newPlatform.png"];
     [self addChild: platformSprite z: 1];
     
     CGSize spriteSize = [platformSprite contentSize];
@@ -97,6 +120,25 @@
 {
     gunOne.visible = NO;
     gunTwo.visible = NO;
+}
+
+# pragma mark showCoordinatsOfBall
+
+- (void) showCoordinats: (CGPoint) pointOfBall
+{
+    //CCLOG(@"X: %f", kGameWidth/);
+    
+    float differentBallPlatformXleft = self.position.x - self.contentSize.width / 2.8 - pointOfBall.x;
+    float differentBallPlatformXright = self.position.x + self.contentSize.width / 2.8 - pointOfBall.x;
+    
+    float differentBallPlatformY = pointOfBall.y - self.position.y;
+    //CCLOG(@"%f", differentBallPlatformX);
+    
+    leftPipul.position = ccp(-differentBallPlatformXleft * 0.025 + leftEye.contentSize.width / 2,
+                             leftEye.contentSize.height / 2 + differentBallPlatformY * 0.025);
+    
+    rightPipul.position = ccp(-differentBallPlatformXright * 0.025 + rightEye.contentSize.width / 2,
+                              rightEye.contentSize.height / 2 + differentBallPlatformY * 0.025);
 }
 
 @end

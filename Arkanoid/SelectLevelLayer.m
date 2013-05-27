@@ -32,6 +32,15 @@
 {
 	if( (self=[super init]) )
     {
+        CCSprite *gameBg = [CCSprite spriteWithFile: @"bg2.png"];
+        gameBg.position = ccp(GameCenterX, GameCenterY);
+        [self addChild: gameBg];
+        
+        CCLabelBMFont *selectLevelLabel = [CCLabelBMFont labelWithString: @"Select level" fntFile: @"pixelFont48.fnt"];
+        selectLevelLabel.position = ccp(GameCenterX, kGameHeight - selectLevelLabel.contentSize.height * 1.5);
+        selectLevelLabel.color = ccc3(255, 255, 255);
+        [self addChild: selectLevelLabel];
+        
         [self showMenuOfLevels];
     }
     
@@ -65,11 +74,11 @@
         
         curItem.tag = i + 1;
         
-        CCLabelTTF *levelNumLabel = [CCLabelTTF labelWithString: [NSString stringWithFormat: @"%i", i+1]
-                                                       fontName: @"Arial"
-                                                       fontSize: 16
-                                ];
         
+        CCLabelBMFont *levelNumLabel = [CCLabelBMFont labelWithString: [NSString stringWithFormat: @"%i", i + 1]
+                                                              fntFile: @"pixelFont36.fnt"];
+        
+        levelNumLabel.color = ccc3(0, 0, 0);
         levelNumLabel.position = ccp(curItem.contentSize.width/2, curItem.contentSize.height/2);
         
         [selectLevelMenu addChild: curItem];

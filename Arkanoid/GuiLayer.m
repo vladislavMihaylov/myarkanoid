@@ -65,9 +65,15 @@
 
 #pragma mark pauseMenu
 
+
+
 - (void) showPauseMenu
 {
     [gameLayer pause];
+    
+    pauseLayer = [CCLayerColor layerWithColor: ccc4(0, 0, 0, 120)];
+    pauseLayer.position = ccp(0, 0);
+    [self addChild: pauseLayer];
     
     CCMenuItemImage *playBtn = [CCMenuItemImage itemWithNormalImage: @"playBtnForMenu.png"
                                                        selectedImage: @"playBtnForMenu.png"
@@ -100,6 +106,8 @@
 
 - (void) goToNextLevel
 {
+    [self removeChild: pauseLayer cleanup: YES];
+    
     [gameLayer nextLevel];
     
     [self removeChildByTag: pauseMenuTag cleanup: YES];
@@ -107,11 +115,14 @@
 
 - (void) exitToSelectLevelLayer
 {
+    
     [[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration: 0.5 scene: [SelectLevelLayer scene]]];
 }
 
 - (void) continuePlay
 {
+    [self removeChild: pauseLayer cleanup: YES];
+    
     [gameLayer unPause];
     
     [self removeChildByTag: pauseMenuTag cleanup: YES];

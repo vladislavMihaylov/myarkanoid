@@ -16,6 +16,7 @@
     @private
         CCLabelTTF *scoreLabel;
         CCLabelTTF *livesLabel;
+        CCLayerColor *pauseLayer;
     
     @public
         GameLayer *gameLayer;

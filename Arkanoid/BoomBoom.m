@@ -10,6 +10,8 @@
 
 #import "GameLayer.h"
 
+#import "Common.h"
+
 @implementation BoomBoom
 
 @synthesize gameLayer;
@@ -30,9 +32,13 @@
 {
     if(self = [super init])
     {
-        CCSprite *boom = [CCSprite spriteWithFile: @"block0.png"];
+        s_boom = [CCSprite spriteWithFile: @"block0.png"];
         
-        [self addChild: boom];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile: @"boomAnim.plist"];
+        
+        [Common loadAnimationWithPlist: @"boomAnimation" andName: @"boom_"];
+        
+        [self addChild: s_boom];
     }
     
     return self;
@@ -40,12 +46,13 @@
 
 - (void) bang
 {
-    [self runAction: [CCRotateTo actionWithDuration: 0.5 angle: 720]];
+    [s_boom runAction:
+                    [CCAnimate actionWithAnimation:
+                        [[CCAnimationCache sharedAnimationCache] animationByName: @"boom_"]
+                    ]
+    ];    
     
-    [self runAction: [CCSequence actions: [CCScaleTo actionWithDuration: 0.25 scale: 2.5],
-                     [CCScaleTo actionWithDuration: 0.25 scale: 0], nil]];
-    
-    [self runAction: [CCSequence actions: [CCDelayTime actionWithDuration: 1.01],
+    [self runAction: [CCSequence actions: [CCDelayTime actionWithDuration: 0.9],
                       [CCCallBlock actionWithBlock:^(void){[gameLayer removeBoom: self];}], nil]];
 }
 

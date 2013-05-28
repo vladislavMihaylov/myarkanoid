@@ -13,7 +13,7 @@
 
 @interface BoomBoom: CCNode
 {
-    
+    CCSprite *s_boom;
 }
 
 + (BoomBoom *) create;

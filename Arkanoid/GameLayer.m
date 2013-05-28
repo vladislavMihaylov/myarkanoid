@@ -10,6 +10,7 @@
 #import "GameConfig.h"
 #import "SimpleAudioEngine.h"
 #import "Bonus.h"
+#import "Common.h"
 
 @implementation GameLayer
 
@@ -54,13 +55,26 @@
         
         [self initializeArrays];
         
-        CCSprite *gameBg = [CCSprite spriteWithFile: @"bg2.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile: @"portalAnim.plist"];
+        
+        [Common loadAnimationWithPlist: @"portalAnimation" andName: @"portal"];
+        
+        CCSprite *gameBg = [CCSprite spriteWithFile: @"gameBg.png"];
         gameBg.position = ccp(GameCenterX, GameCenterY);
         [self addChild: gameBg];
         
         portal = [CCSprite spriteWithFile: @"platform.png"];
         portal.position = ccp(GameCenterX, kGameHeight - 30);
+        portal.visible = NO;
         [self addChild: portal];
+        
+        [portal runAction:
+                [CCRepeatForever actionWithAction:
+                    [CCAnimate actionWithAnimation:
+                        [[CCAnimationCache sharedAnimationCache] animationByName: @"portal"]
+                     ]
+                 ]
+         ];
         
         platform = [Platform create];
         platform.position = ccp(GameCenterX, kPlatformHeight);
@@ -299,6 +313,12 @@
         [self removeChild: curBlock cleanup: YES];
     }
     
+    for(Enemy *curEnemy in enemiesArray)
+    {
+        [self removeChild: curEnemy cleanup: YES];
+    }
+    
+    [enemiesArray removeAllObjects];
     [blocksArray removeAllObjects];
     
     [self unPause];
@@ -779,6 +799,8 @@
 {
     if([blocksArray count] == 0 && [enemiesArray count] == 0)
     {
+        portal.visible = YES;
+        
         for(Ball *curBall in ballsArray)
         {
             if((fabs(curBall.position.y - portal.position.y) < fabs(curBall.contentSize.height / 2 + portal.contentSize.height / 2)) &&
@@ -787,6 +809,7 @@
                 if(IsPortalActive)
                 {
                     IsPortalActive = NO;
+                    portal.visible = NO;
                 }
             }
         }
